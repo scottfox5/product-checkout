@@ -21,3 +21,4 @@ This is a single page react application for a simple product checkout. The user 
 
 # Improvements to make
 - make design more responsive to screen sizes and improve overall spacing
+- refactor code to be more dynamic and break it into more components
