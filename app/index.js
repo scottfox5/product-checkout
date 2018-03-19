@@ -18,13 +18,14 @@ const styles = {
   root: {
     display: 'inline-flex',
     flexWrap: 'wrap',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    padding: "20"
   },
   gridList: {
     display: 'flex',
     flexWrap: 'nowrap',
     overflowX: 'auto',
-    height: 230,
+    height: 280,
     width: 200,
     padding: 20,
     marginTop: 50
@@ -34,18 +35,22 @@ const styles = {
     border: "2px solid black",
     borderRadius: "10px",
     textAlign: "center",
-    height: "235px",
-    margin: "0"
+    height: "280",
+    margin: "0",
+    padding: "20"
   },
   nameStyle: {
-    color: "green",
+
   },
   priceStyle: {
-    color: "red"
+
   },
   featureStyle: {
-    color: "purple"
+
   },
+  buttonStyle: {
+    margin: 10
+  }
 };
 
 class App extends React.Component {
@@ -113,7 +118,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`https://api.myjson.com/bins/xoph7/`)
+    fetch(`https://api.myjson.com/bins/o87rf/`)
     .then(response => {
         return response.json()
     })
@@ -122,7 +127,7 @@ class App extends React.Component {
               let feats = item.features;
               return (
                 <div style={styles.root} key={item.sku}>
-                  <GridList style={styles.gridList} cols={1} rows={2.3} key={item.sku}>
+                  <GridList style={styles.gridList} cols={1} rows={3} key={item.sku}>
                       <GridTile
                         style={styles.gridTile}
                         key={item.sku}
@@ -133,7 +138,7 @@ class App extends React.Component {
                             <ul style={styles.featureStyle}>
                               {feats.map((i) => { return (<li key={i}>{i}</li>)})}
                             </ul>
-                            <RaisedButton label="Buy" backgroundColor= {"rgb(32,155,120)"} labelColor= {"rgb(255,255,255)"} onClick={() => { this.prodChose(item.name, item.price) }}/>
+                            <RaisedButton style={styles.buttonStyle} label="Buy" backgroundColor= {"rgb(32,155,120)"} labelColor= {"rgb(255,255,255)"} onClick={() => { this.prodChose(item.name, item.price) }}/>
                           </div>}
                       >
                       </GridTile>
@@ -158,7 +163,7 @@ class App extends React.Component {
     switch(orderStep){
       case 'checkout':
         currentView = (
-                <div>
+                <div className="costShippingContainer">
                   <div className="costCalculator">
                     <p>Item: {this.state.name}</p>
                     <p>Subtotal: ${price}</p>

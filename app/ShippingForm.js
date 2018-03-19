@@ -92,7 +92,8 @@ export class ShippingForm extends React.Component {
           type="text"
           placeholder="City"
         />
-        <DropDownMenu value={this.state.value} onChange={this.handleMenuSelection}>
+        <span>Select State</span>
+        <DropDownMenu className="dropdownMenu" value={this.state.value} onChange={this.handleMenuSelection}>
           {stateAbrevs.map((i) => { return (<MenuItem value={i}  key={i} primaryText={i} />)})}
         </DropDownMenu>
         <input

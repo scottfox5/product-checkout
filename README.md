@@ -18,3 +18,6 @@ This is a single page react application for a simple product checkout. The user 
 - npm run build
 - npm start
 - application will run on localhost:8080 by default
+
+# Improvements to make
+- make design more responsive to screen sizes and improve overall spacing
