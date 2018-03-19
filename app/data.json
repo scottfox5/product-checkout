@@ -1,0 +1,26 @@
+[
+  {
+      "name": "prod-one",
+      "sku": 1111,
+      "price": 10.11,
+      "features": [
+        "feat11", "feat12", "feat13"
+      ]
+  },
+  {
+      "name": "prod-two",
+      "sku": 2222,
+      "price": 20.22,
+      "features": [
+        "feat21", "feat22", "feat23"
+      ]
+  },
+  {
+      "name": "prod-three",
+      "sku": 3333,
+      "price": 30.33,
+      "features": [
+        "feat31", "feat32", "feat33"
+      ]
+  }
+]
