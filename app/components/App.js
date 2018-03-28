@@ -54,6 +54,7 @@ const styles = {
 };
 
 export class App extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -63,13 +64,19 @@ export class App extends React.Component {
       sku: 'sku',
       shippingCost: 0,
     };
-    this.prodChose = this.prodChose.bind(this);
-    this.orderSuccess = this.orderSuccess.bind(this);
-    this.getShippingCost = this.getShippingCost.bind(this);
     this.changeView = this.changeView.bind(this);
+    this.itemSelected = this.itemSelected.bind(this);
+    this.getShippingCost = this.getShippingCost.bind(this);
+    this.orderPlaced = this.orderPlaced.bind(this);
   }
 
-  prodChose(name, price) {
+  changeView(view) {
+    this.setState({
+      navigateView: view + 'View',
+    });
+  }
+
+  itemSelected(name, price) {
     this.setState({
       name: name,
       price: price,
@@ -77,34 +84,16 @@ export class App extends React.Component {
     });
   }
 
-  orderSuccess() {
-    this.setState({
-      navigateView: 'orderSuccess',
-    });
-  }
-
-  changeView(view) {
-
-    if (view === 'home') {
-      this.setState({
-        navigateView: 'homeView',
-      });
-    } else if (view === 'market') {
-      this.setState({
-        navigateView: 'marketView',
-      });
-    } else if (view === 'help') {
-      this.setState({
-        navigateView: 'helpView',
-      });
-    }
-
-  }
-
   getShippingCost(value) {
     this.setState({
       shippingCost: value
     })
+  }
+
+  orderPlaced() {
+    this.setState({
+      navigateView: 'orderPlaced',
+    });
   }
 
   componentDidMount() {
@@ -128,7 +117,7 @@ export class App extends React.Component {
                             <ul style={styles.featureStyle}>
                               {feats.map((i) => { return (<li key={i}>{i}</li>)})}
                             </ul>
-                            <RaisedButton style={styles.buttonStyle} label="Buy" backgroundColor= {"rgb(32,155,120)"} labelColor= {"rgb(255,255,255)"} onClick={() => { this.prodChose(item.name, item.price) }}/>
+                            <RaisedButton style={styles.buttonStyle} label="Buy" backgroundColor= {"rgb(32,155,120)"} labelColor= {"rgb(255,255,255)"} onClick={() => { this.itemSelected(item.name, item.price) }}/>
                           </div>}
                       >
                       </GridTile>
@@ -158,11 +147,11 @@ export class App extends React.Component {
                     <p>S&H: ${shippingCost}</p>
                     <p>Total: ${totalPrice}</p>
                   </div>
-                  <ShippingForm sendShippingCost={this.getShippingCost} orderSuccess={this.orderSuccess} />
+                  <ShippingForm sendShippingCost={this.getShippingCost} orderPlaced={this.orderPlaced} />
                 </div>
                 );
                 break;
-      case 'orderSuccess':
+      case 'orderPlaced':
         currentView = (
           <p className="placeHolderText">Success! Your order has been placed.</p>
         );
@@ -192,8 +181,7 @@ export class App extends React.Component {
         <MuiThemeProvider>
           <div>
             <Navigation changeViewTo={this.changeView} />
-            <div>{currentView}
-            </div>
+            <div>{currentView}</div>
           </div>
         </MuiThemeProvider>
       </div>

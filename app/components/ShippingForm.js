@@ -53,7 +53,7 @@ export class ShippingForm extends React.Component {
       this.setState({ errors });
       return;
     } else {
-      this.props.orderSuccess();
+      this.props.orderPlaced();
     }
   }
 
