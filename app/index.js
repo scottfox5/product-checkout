@@ -61,12 +61,12 @@ class App extends React.Component {
       price: 'price',
       features: 'features',
       sku: 'sku',
-      shippingCosts: 0,
+      shippingCost: 0,
     };
-    console.log('ship', this.state.shippingCosts)
+    console.log('ship', this.state.shippingCost)
     this.prodChose = this.prodChose.bind(this);
     this.orderSuccess = this.orderSuccess.bind(this);
-    this.shippingStateChose = this.shippingStateChose.bind(this);
+    this.getShippingCost = this.getShippingCost.bind(this);
     this.navHome = this.navHome.bind(this);
     this.navMarket = this.navMarket.bind(this);
     this.navHelp = this.navHelp.bind(this);
@@ -101,19 +101,10 @@ class App extends React.Component {
   }
 
 
-  shippingStateChose(st) {
-    let costToShip;
-    if (st === 'MN'){
-      costToShip = 0
-    } else if (st.match(/^(NY|CA|MA)$/)) {
-    costToShip = 7.5;
-    } else if (st.match(/^(GA|AL|FL)$/)) {
-    costToShip = 3.99;
-    } else {
-      costToShip = 5.99
-    }
+  getShippingCost(value) {
+
     this.setState({
-      shippingCosts: costToShip
+      shippingCost: value
     })
   }
 
@@ -156,8 +147,8 @@ class App extends React.Component {
 
   render() {
     let price = parseFloat(this.state.price)
-    let shippingCosts = parseFloat(this.state.shippingCosts);
-    let totalPrice = Math.ceil((price + shippingCosts)*100)/100;
+    let shippingCost = parseFloat(this.state.shippingCost);
+    let totalPrice = Math.ceil((price + shippingCost)*100)/100;
     let orderStep = this.state.orderProcess;
     let currentView;
     switch(orderStep){
@@ -167,10 +158,10 @@ class App extends React.Component {
                   <div className="costCalculator">
                     <p>Item: {this.state.name}</p>
                     <p>Subtotal: ${price}</p>
-                    <p>S&H: ${shippingCosts}</p>
+                    <p>S&H: ${shippingCost}</p>
                     <p>Total: ${totalPrice}</p>
                   </div>
-                  <ShippingForm shippingStateChose={this.shippingStateChose} orderSuccess={this.orderSuccess} />
+                  <ShippingForm sendShippingCost={this.getShippingCost} orderSuccess={this.orderSuccess} />
                 </div>
                 );
                 break;

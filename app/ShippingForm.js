@@ -4,6 +4,8 @@ import { ShippingStateDropdown } from './ShippingStateDropdown';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 
+const stateAbrevs = ['AL','AK','AS','AZ','AR','CA','CO','CT','DE','DC','FM','FL','GA','GU','HI','ID','IL','IN','IA','KS','KY','LA','ME','MH','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','MP','OH','OK','OR','PW','PA','PR','RI','SC','SD','TN','TX','UT','VT','VI','VA','WA','WV','WI','WY']
+
 function validate(name, street, city, state, zip) {
 
   const errors = [];
@@ -18,7 +20,7 @@ function validate(name, street, city, state, zip) {
     errors.push("City is required");
   }
   if (state.length === 0) {
-    // errors.push("State is required");
+    errors.push("State is required");
   }
   if (zip.length === 0) {
     errors.push("Zip is required");
@@ -26,31 +28,20 @@ function validate(name, street, city, state, zip) {
   return errors;
 }
 
-const stateAbrevs = ['AL','AK','AS','AZ','AR','CA','CO','CT','DE','DC','FM','FL','GA','GU','HI','ID','IL','IN','IA','KS','KY','LA','ME','MH','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','MP','OH','OK','OR','PW','PA','PR','RI','SC','SD','TN','TX','UT','VT','VI','VA','WA','WV','WI','WY']
-
-
 export class ShippingForm extends React.Component {
-
-    handleMenuSelection = (event, index, value) => {
-      this.props.shippingStateChose(value);
-      this.setState({
-        shipState: value
-      });
-    }
 
   constructor() {
     super();
-    this.handleMenuSelection = this.handleMenuSelection.bind(this);
     this.state = {
       name: '',
       street: '',
       city: '',
       state: '',
       zip: '',
-      value: 1,
       errors: [],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleMenuSelection = this.handleMenuSelection.bind(this);
   }
 
   handleSubmit(e) {
@@ -65,6 +56,25 @@ export class ShippingForm extends React.Component {
     } else {
       this.props.orderSuccess();
     }
+  }
+
+  handleMenuSelection = (event, index, val) => {
+
+    this.setState({ state : val });
+
+    let shipCost;
+    if (val === 'MN'){
+      shipCost = 0
+    } else if (val.match(/^(NY|CA|MA)$/)) {
+    shipCost = 7.5;
+    } else if (val.match(/^(GA|AL|FL)$/)) {
+    shipCost = 3.99;
+    } else {
+      shipCost = 5.99
+    }
+
+    this.props.sendShippingCost(shipCost);
+
   }
 
   render() {
@@ -93,7 +103,7 @@ export class ShippingForm extends React.Component {
           placeholder="City"
         />
         <span>Select State</span>
-        <DropDownMenu className="dropdownMenu" value={this.state.value} onChange={this.handleMenuSelection}>
+        <DropDownMenu className="dropdownMenu" onChange={this.handleMenuSelection} >
           {stateAbrevs.map((i) => { return (<MenuItem value={i}  key={i} primaryText={i} />)})}
         </DropDownMenu>
         <input
