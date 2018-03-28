@@ -14,7 +14,6 @@ export default class Navigation extends React.Component {
   handleToggle = () => this.setState({open: !this.state.open});
 
   navigateTo(view) {
-    console.log('Info');
     this.props.changeViewTo(view);
   }
 
