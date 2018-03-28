@@ -2,6 +2,7 @@ import React from 'react';
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
 
 const stateAbrevs = ['AL','AK','AS','AZ','AR','CA','CO','CT','DE','DC','FM','FL','GA','GU','HI','ID','IL','IN','IA','KS','KY','LA','ME','MH','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','MP','OH','OK','OR','PW','PA','PR','RI','SC','SD','TN','TX','UT','VT','VI','VA','WA','WV','WI','WY']
 
@@ -111,7 +112,7 @@ export class ShippingForm extends React.Component {
           type="text"
           placeholder="Zip"
         />
-        <button type="submit">Submit</button>
+        <RaisedButton type="submit" label="Submit" backgroundColor= {"rgb(32,155,120)"} labelColor= {"rgb(255,255,255)"} />
       </form>
     );
   }
