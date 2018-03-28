@@ -80,7 +80,7 @@ export class App extends React.Component {
     this.setState({
       name: name,
       price: price,
-      navigateView: 'checkout',
+      navigateView: 'checkoutView',
     });
   }
 
@@ -92,7 +92,7 @@ export class App extends React.Component {
 
   orderPlaced() {
     this.setState({
-      navigateView: 'orderPlaced',
+      navigateView: 'orderPlacedView',
     });
   }
 
@@ -138,7 +138,7 @@ export class App extends React.Component {
     let totalPrice = Math.ceil((price + shippingCost)*100)/100;
     let currentView;
     switch(this.state.navigateView){
-      case 'checkout':
+      case 'checkoutView':
         currentView = (
                 <div className="costShippingContainer">
                   <div className="costCalculator">
@@ -151,9 +151,9 @@ export class App extends React.Component {
                 </div>
                 );
                 break;
-      case 'orderPlaced':
+      case 'orderPlacedView':
         currentView = (
-          <p className="placeHolderText">Success! Your order has been placed.</p>
+          <p className="placeHolderText">Thank You! Your order has been placed.</p>
         );
         break;
       case 'homeView':
