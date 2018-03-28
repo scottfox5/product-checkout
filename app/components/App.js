@@ -66,41 +66,39 @@ export class App extends React.Component {
     this.prodChose = this.prodChose.bind(this);
     this.orderSuccess = this.orderSuccess.bind(this);
     this.getShippingCost = this.getShippingCost.bind(this);
-    this.navHome = this.navHome.bind(this);
-    this.navMarket = this.navMarket.bind(this);
-    this.navHelp = this.navHelp.bind(this);
+    this.changeView = this.changeView.bind(this);
   }
 
   prodChose(name, price) {
     this.setState({
       name: name,
       price: price,
-      orderProcess: 'checkout',
+      navigateView: 'checkout',
     });
   }
 
   orderSuccess() {
     this.setState({
-      orderProcess: 'orderSuccess',
+      navigateView: 'orderSuccess',
     });
   }
 
-  navHome() {
-    this.setState({
-      orderProcess: 'homeView',
-    });
-  }
+  changeView(view) {
 
-  navMarket() {
-    this.setState({
-      orderProcess: 'marketView',
-    });
-  }
+    if (view === 'home') {
+      this.setState({
+        navigateView: 'homeView',
+      });
+    } else if (view === 'market') {
+      this.setState({
+        navigateView: 'marketView',
+      });
+    } else if (view === 'help') {
+      this.setState({
+        navigateView: 'helpView',
+      });
+    }
 
-  navHelp() {
-    this.setState({
-      orderProcess: 'helpView',
-    });
   }
 
   getShippingCost(value) {
@@ -149,9 +147,8 @@ export class App extends React.Component {
     let price = parseFloat(this.state.price)
     let shippingCost = parseFloat(this.state.shippingCost);
     let totalPrice = Math.ceil((price + shippingCost)*100)/100;
-    let orderStep = this.state.orderProcess;
     let currentView;
-    switch(orderStep){
+    switch(this.state.navigateView){
       case 'checkout':
         currentView = (
                 <div className="costShippingContainer">
@@ -194,7 +191,7 @@ export class App extends React.Component {
       <div id="">
         <MuiThemeProvider>
           <div>
-            <Navigation navHome={this.navHome} navMarket={this.navMarket} navHelp={this.navHelp}/>
+            <Navigation changeViewTo={this.changeView} />
             <div>{currentView}
             </div>
           </div>
