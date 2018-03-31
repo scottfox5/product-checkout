@@ -56,6 +56,7 @@ export class ShippingForm extends React.Component {
     } else {
       this.props.orderPlaced();
     }
+
   }
 
   handleMenuSelection = (event, index, val) => {
