@@ -4,6 +4,39 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 
+const formStyles = {
+  form: {
+    width: 300,
+    backgroundColor: 'white',
+    border: '1px solid black',
+    padding: 20,
+    bordeRadius: 10
+  },
+  input: {
+      width: '100%',
+      padding: '12px 20px',
+      margin: '8px 0',
+      display: 'inline-block',
+      border: '1px solid #ccc',
+      borderRadius: 4,
+      boxSizing: 'border-box'
+  },
+  input: {
+      width: '100%',
+      backgroundColor: '#4CAF50',
+      color: 'white',
+      padding: '14px 20px',
+      margin: '8px 0',
+      border: 'none',
+      bordeRadius: 4,
+      cursor: 'pointer',
+  },
+  input: {
+      bordeRadius: 5,
+      backgroundColor: '#f2f2f2'
+  }
+}
+
 const stateAbrevs = ['AL','AK','AS','AZ','AR','CA','CO','CT','DE','DC','FM','FL','GA','GU','HI','ID','IL','IN','IA','KS','KY','LA','ME','MH','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','MP','OH','OK','OR','PW','PA','PR','RI','SC','SD','TN','TX','UT','VT','VI','VA','WA','WV','WI','WY']
 
 function validate(name, street, city, state, zip) {
@@ -81,7 +114,10 @@ export class ShippingForm extends React.Component {
   render() {
     const { errors } = this.state;
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form
+        onSubmit={this.handleSubmit}
+        style={formStyles.form}
+        >
         {errors.map(error => (
           <p key={error}>Error: {error}</p>
         ))}
@@ -90,18 +126,21 @@ export class ShippingForm extends React.Component {
           onChange={evt => this.setState({ name: evt.target.value })}
           type="text"
           placeholder="Name"
+          style={formStyles.input}
         />
         <input
           value={this.state.street}
           onChange={evt => this.setState({ street: evt.target.value })}
           type="text"
           placeholder="Street"
+          style={formStyles.input}
         />
         <input
           value={this.state.city}
           onChange={evt => this.setState({ city: evt.target.value })}
           type="text"
           placeholder="City"
+          style={formStyles.input}
         />
         <span>Select State</span>
         <DropDownMenu className="dropdownMenu" onChange={this.handleMenuSelection} >

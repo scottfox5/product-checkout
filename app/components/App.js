@@ -3,6 +3,8 @@ import React from 'react';
 import { ShippingForm } from './ShippingForm';
 import Navigation from './Navigation';
 
+import { styles } from './../styles';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
@@ -10,7 +12,15 @@ import Paper from 'material-ui/Paper';
 import { GridList, GridTile } from 'material-ui/GridList';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const styles = {
+const mainContainer = {
+    fontFamily: styles.fontFamily,
+    color: styles.color,
+    backgroundColor: styles.backgroundColor,
+    height: '100vh',
+};
+
+const marketStyles = {
+
   productContainer: {
     display: "inline-flex",
     marginLeft: 200
@@ -51,7 +61,38 @@ const styles = {
   buttonStyle: {
     margin: 10
   }
-};
+
+}
+
+const checkoutStyles = {
+
+  costShippingContainer: {
+    width: '50%',
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    WebkitTransform: 'translate(-50%, -50%)',
+    textAlign: 'center',
+    fontSize: 20,
+    minWidth: 360,
+    display: 'inline-flex'
+  },
+  costCalculator: {
+    width: '100%',
+    backgroundColor: 'white',
+    border: '1px solid black',
+    borderRadius: 10,
+    marginRight: 30
+  }
+
+}
+
+const titleStyles = {
+  textAlign: 'center',
+  fontSize: 30,
+  margiTop: 50
+}
 
 export class App extends React.Component {
 
@@ -105,19 +146,19 @@ export class App extends React.Component {
       let productData = data.map((item) => {
               let feats = item.features;
               return (
-                <div style={styles.root} key={item.sku}>
-                  <GridList style={styles.gridList} cols={1} rows={3} key={item.sku}>
+                <div style={marketStyles.root} key={item.sku}>
+                  <GridList style={marketStyles.gridList} cols={1} rows={3} key={item.sku}>
                       <GridTile
-                        style={styles.gridTile}
+                        style={marketStyles.gridTile}
                         key={item.sku}
                         children={
                           <div>
-                            <h2 style={styles.nameStyle}>{item.name}</h2>
-                            <p style={styles.priceStyle}>{item.price}</p>
-                            <ul style={styles.featureStyle}>
+                            <h2 style={marketStyles.nameStyle}>{item.name}</h2>
+                            <p style={marketStyles.priceStyle}>{item.price}</p>
+                            <ul style={marketStyles.featureStyle}>
                               {feats.map((i) => { return (<li key={i}>{i}</li>)})}
                             </ul>
-                            <RaisedButton style={styles.buttonStyle} label="Buy" backgroundColor= {"rgb(32,155,120)"} labelColor= {"rgb(255,255,255)"} onClick={() => { this.itemSelected(item.name, item.price) }}/>
+                            <RaisedButton style={marketStyles.buttonStyle} label="Buy" backgroundColor= {"rgb(32,155,120)"} labelColor= {"rgb(255,255,255)"} onClick={() => { this.itemSelected(item.name, item.price) }}/>
                           </div>}
                       >
                       </GridTile>
@@ -137,47 +178,44 @@ export class App extends React.Component {
     let shippingCost = parseFloat(this.state.shippingCost);
     let totalPrice = Math.ceil((price + shippingCost)*100)/100;
     let currentView;
+    const homeView = <h1 style={titleStyles}>Home</h1>;
+    const marketView = <div style={marketStyles.productContainer}>{this.state.products}</div>;
+    const helpView = <h1 style={titleStyles}>Help</h1>;
+    const checkoutView = (
+            <div style={checkoutStyles.costShippingContainer}>
+              <div style={checkoutStyles.costCalculator}>
+                <p>Item: {this.state.name}</p>
+                <p>Subtotal: ${price}</p>
+                <p>S&H: ${shippingCost}</p>
+                <p>Total: ${totalPrice}</p>
+              </div>
+              <ShippingForm sendShippingCost={this.getShippingCost} orderPlaced={this.orderPlaced} />
+            </div>
+            );
+    const orderPlacedView = <h1 style={titleStyles}>Thank You</h1>;
+
     switch(this.state.navigateView){
-      case 'checkoutView':
-        currentView = (
-                <div className="costShippingContainer">
-                  <div className="costCalculator">
-                    <p>Item: {this.state.name}</p>
-                    <p>Subtotal: ${price}</p>
-                    <p>S&H: ${shippingCost}</p>
-                    <p>Total: ${totalPrice}</p>
-                  </div>
-                  <ShippingForm sendShippingCost={this.getShippingCost} orderPlaced={this.orderPlaced} />
-                </div>
-                );
-                break;
-      case 'orderPlacedView':
-        currentView = (
-          <p className="placeHolderText">Thank You! Your order has been placed.</p>
-        );
-        break;
       case 'homeView':
-        currentView = (
-          <p className="placeHolderText">Home</p>
-        );
+        currentView = homeView
         break;
       case 'marketView':
-        currentView = (
-                <div style={styles.productContainer}>{this.state.products}</div>
-                );
+        currentView = marketView
         break;
       case 'helpView':
-        currentView = (
-          <p className="placeHolderText">Help</p>
-        );
+        currentView = helpView
+        break;
+      case 'checkoutView':
+        currentView = checkoutView
+        break;
+      case 'orderPlacedView':
+        currentView = orderPlacedView
         break;
       default:
-        currentView = (
-                <div style={styles.productContainer}>{this.state.products}</div>
-                );
+        currentView = marketView
     };
+
     return (
-      <div id="">
+      <div style={mainContainer}>
         <MuiThemeProvider>
           <div>
             <Navigation changeViewTo={this.changeView} />
