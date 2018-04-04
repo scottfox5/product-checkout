@@ -38,6 +38,9 @@ const formStyles = {
   errors: {
     fontSize: 10,
   },
+  dropdown: {
+    display: 'block'
+  },
   submitButton: {
     marginTop: 5
   }
@@ -94,7 +97,9 @@ export class ShippingForm extends React.Component {
       this.setState({ errors });
       return;
     } else {
+      this.setState({ value: 'State' });
       this.props.orderPlaced();
+      this.props.sendShippingCost(0);
     }
 
   }
@@ -149,8 +154,7 @@ export class ShippingForm extends React.Component {
           placeholder="City"
           style={formStyles.input}
         />
-        <span>Select State</span>
-        <DropDownMenu value={this.state.value} onChange={this.handleMenuSelection} maxHeight={300}>
+      <DropDownMenu style={formStyles.dropdown} value={this.state.value} onChange={this.handleMenuSelection} maxHeight={300}>
           {stateAbrevs.map((i) => { return (<MenuItem value={i}  key={i} label={i} primaryText={i} />)})}
         </DropDownMenu>
         <input
