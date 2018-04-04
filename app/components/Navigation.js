@@ -5,7 +5,8 @@ import MenuItem from 'material-ui/MenuItem';
 
 const navigationStyles = {
   appBar: {
-    backgroundColor: 'rgb(19,84,122)'
+    backgroundColor: 'rgb(19,84,122)',
+    position: 'fixed'
   },
   drawer: {
     top: 70,

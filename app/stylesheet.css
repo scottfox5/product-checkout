@@ -1,16 +1,16 @@
 
 @media (min-width: 769px) {
-  p {
-    font-size: 2em;
+  p, h2, li {
+    font-size: 1.25em;
   }
 }
 @media (max-width: 768px) {
-  p {
+  p, h2, li {
     font-size: 1em;
   }
 }
 @media (max-width: 480px) {
-  p {
-    font-size: .5em;
+  p, h2, li {
+    font-size: .75em;
   }
-} 
+}

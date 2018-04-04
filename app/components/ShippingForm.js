@@ -34,10 +34,16 @@ const formStyles = {
   input: {
       bordeRadius: 5,
       backgroundColor: '#f2f2f2'
+  },
+  errors: {
+    fontSize: 10,
+  },
+  submitButton: {
+    marginTop: 5
   }
 }
 
-const stateAbrevs = ['AL','AK','AS','AZ','AR','CA','CO','CT','DE','DC','FM','FL','GA','GU','HI','ID','IL','IN','IA','KS','KY','LA','ME','MH','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','MP','OH','OK','OR','PW','PA','PR','RI','SC','SD','TN','TX','UT','VT','VI','VA','WA','WV','WI','WY']
+const stateAbrevs = ['State', 'AL','AK','AS','AZ','AR','CA','CO','CT','DE','DC','FM','FL','GA','GU','HI','ID','IL','IN','IA','KS','KY','LA','ME','MH','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','MP','OH','OK','OR','PW','PA','PR','RI','SC','SD','TN','TX','UT','VT','VI','VA','WA','WV','WI','WY']
 
 function validate(name, street, city, state, zip) {
 
@@ -72,6 +78,7 @@ export class ShippingForm extends React.Component {
       state: '',
       zip: '',
       errors: [],
+      value: 'State'
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleMenuSelection = this.handleMenuSelection.bind(this);
@@ -94,10 +101,10 @@ export class ShippingForm extends React.Component {
 
   handleMenuSelection = (event, index, val) => {
 
-    this.setState({ state : val });
+    this.setState({ state : val, value : val });
 
     let shipCost;
-    if (val === 'MN'){
+    if (val === 'MN' || val==="State"){
       shipCost = 0
     } else if (val.match(/^(NY|CA|MA)$/)) {
     shipCost = 7.5;
@@ -119,7 +126,7 @@ export class ShippingForm extends React.Component {
         style={formStyles.form}
         >
         {errors.map(error => (
-          <p key={error}>Error: {error}</p>
+          <p style={formStyles.errors} key={error}>Error: {error}</p>
         ))}
         <input
           value={this.state.name}
@@ -143,8 +150,8 @@ export class ShippingForm extends React.Component {
           style={formStyles.input}
         />
         <span>Select State</span>
-        <DropDownMenu className="dropdownMenu" onChange={this.handleMenuSelection} >
-          {stateAbrevs.map((i) => { return (<MenuItem value={i}  key={i} primaryText={i} />)})}
+        <DropDownMenu value={this.state.value} onChange={this.handleMenuSelection} maxHeight={300}>
+          {stateAbrevs.map((i) => { return (<MenuItem value={i}  key={i} label={i} primaryText={i} />)})}
         </DropDownMenu>
         <input
           value={this.state.zip}
@@ -152,7 +159,7 @@ export class ShippingForm extends React.Component {
           type="text"
           placeholder="Zip"
         />
-        <RaisedButton type="submit" label="Submit" backgroundColor= {"rgb(32,155,120)"} labelColor= {"rgb(255,255,255)"} />
+      <RaisedButton style={formStyles.submitButton} type="submit" label="Submit" backgroundColor= {"rgb(32,155,120)"} labelColor= {"rgb(255,255,255)"} />
       </form>
     );
   }

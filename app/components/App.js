@@ -22,7 +22,6 @@ const mainContainer = {
 const marketStyles = {
 
   productContainer: {
-    display: "inline-flex",
     marginLeft: 200
   },
   root: {
@@ -56,7 +55,8 @@ const marketStyles = {
 
   },
   featureStyle: {
-
+    textAlign: 'left',
+    margin: '0 25px'
   },
   buttonStyle: {
     margin: 10
@@ -89,9 +89,11 @@ const checkoutStyles = {
 }
 
 const titleStyles = {
-  textAlign: 'center',
   fontSize: 30,
-  margiTop: 50
+  position: 'absolute',
+  top: 100,
+  left: '50%',
+  transform: 'translateX(-50%)'
 }
 
 export class App extends React.Component {
